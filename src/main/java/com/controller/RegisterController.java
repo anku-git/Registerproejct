@@ -2,17 +2,13 @@ package com.controller;
 
 import java.util.List;
 
+import com.response.PaginatedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.entity.Register;
 import com.service.RegisterServiceImp;
 import jakarta.validation.Valid;
@@ -36,13 +32,13 @@ public class RegisterController {
 		return new ResponseEntity<Register>(register2, HttpStatus.OK);
 
 	}
-
-	@GetMapping("/get/all/{size}")
-	public ResponseEntity<Page<Register>> getAllComlaints(@PathVariable Integer size) {
-		Page<Register> register2 = registerServiceImp.getAllRegister(size);
-		return new ResponseEntity<Page<Register>>(register2, HttpStatus.OK);
-	}
-
+	@GetMapping("/get/all")
+	public ResponseEntity<Page<Register>> getAllComlaints(@RequestParam (defaultValue = "0")int page,
+														  @RequestParam (defaultValue = "10")int size,
+														  @RequestParam(defaultValue = "id") String sortBy,
+														  @RequestParam(defaultValue = "true") Boolean sortDirection){
+		Page<Register>register2=registerServiceImp.getAllRegister(page,size,sortBy,sortDirection);
+return new ResponseEntity<>(register2,HttpStatus.OK);}
 	@GetMapping("/get/by/{ticketNo}")
 	public ResponseEntity<Register> getComlaint(@PathVariable String ticketNo) {
 		Register register2 = registerServiceImp.getByTicketNo(ticketNo);

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.entity.Register;
 import com.repository.RegisterRepository;
@@ -27,10 +28,12 @@ public class RegisterServiceImp implements RegisterService {
 
 	}
 
-	public Page<Register> getAllRegister(Integer size) {
-		Pageable pageable=Pageable.ofSize(size);	
+	public Page<Register> getAllRegister(Integer page ,Integer size,String sortBy,Boolean sortDirection) {
+		//Sort sort=Sort.by(Sort.Direction.ASC,"id");
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 		return registerRepository.findAll(pageable);
 	}
+
 
 	public Register getByTicketNo(String ticketNo) {
 		return registerRepository.findByTicketNo(ticketNo).orElseThrow();
