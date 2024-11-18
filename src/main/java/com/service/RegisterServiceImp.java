@@ -1,6 +1,11 @@
 package com.service;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import com.constant.Frequency;
+import com.constant.Priority;
+import com.entity.Remarks;
+import com.repository.RemarksRepository;
+import com.request.RequestData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +23,11 @@ public class RegisterServiceImp implements RegisterService {
 	private RegisterRepository registerRepository;
 
 	public Register save(Register register) {
+		//Frequency frequency;
 		String ticketNo = UUID.randomUUID().toString();
 		register.setTicketNo(ticketNo);
 		return registerRepository.save(register);
 	}
-
 	public Register getById(int id) {
 		return registerRepository.findById(id).orElseThrow();
 
@@ -49,7 +54,6 @@ public class RegisterServiceImp implements RegisterService {
 		rs.setModelName(register.getModelName());
 		rs.setPriority(rs.getPriority());
 		rs.setProjectName(register.getProjectName());
-		rs.setStatus(rs.getStatus());
 		rs.setSubModule(register.getSubModule());
 		return registerRepository.save(rs);
 		

@@ -1,13 +1,13 @@
 package com.entity;
 import java.time.LocalDate;
+import java.util.List;
 
+import com.constant.Frequency;
+import com.constant.Priority;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -26,15 +26,14 @@ public class Register {
 	private String modelName;
 	@NotBlank(message = "subModule is required field")
 	private String subModule;
-	@NotBlank(message = "frequency is required field")
-	private String frequency;
-	@NotBlank(message = "priority is required field")
-	private String priority;
+	@Enumerated(EnumType.STRING)
+	private Frequency frequency;
+	@Enumerated(EnumType.STRING)
+	private Priority priority;
 	@NotBlank(message = "issue is required field")
 	private String issue;
-	@NotBlank(message = "status is required field")
-	private String status;
-	
-	
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name="register_id")
+	private List<Remarks> remarks;
 
 }

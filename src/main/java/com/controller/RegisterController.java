@@ -2,7 +2,7 @@ package com.controller;
 
 import java.util.List;
 
-import com.response.PaginatedResponse;
+import com.request.RequestData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -21,6 +21,8 @@ public class RegisterController {
 
 	@PostMapping("/save")
 	public ResponseEntity<Register> addComlaint(@Valid @RequestBody Register register) {
+//		String frequency= String.valueOf(requestData.getFrequency());
+//		String priority=String.valueOf(requestData.getPriority());
 		Register register2 = registerServiceImp.save(register);
 		return new ResponseEntity<Register>(register2, HttpStatus.OK);
 
