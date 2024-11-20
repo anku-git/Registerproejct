@@ -1,15 +1,12 @@
 package com.entity;
 import java.time.LocalDate;
 import java.util.List;
-
 import com.constant.Frequency;
 import com.constant.Priority;
+import com.constant.Status;
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 @Entity
 @Data
@@ -30,10 +27,21 @@ public class Register {
 	private Frequency frequency;
 	@Enumerated(EnumType.STRING)
 	private Priority priority;
-	@NotBlank(message = "issue is required field")
+	@Enumerated(EnumType.STRING)
+	private Status  status;
+	private String remarks;
 	private String issue;
 	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name="register_id")
-	private List<Remarks> remarks;
+	private List<RemarksManagement> remarksHistory;
+
+	@OneToMany(cascade =CascadeType.ALL)
+	@JoinColumn(name = "register_id")
+	private List<AddressDetails> addressDetails;
+
+	@OneToMany(cascade =CascadeType.ALL)
+	@JoinColumn(name = "register_id")
+	private List<ContactsDetails> contactsDetails;
+
 
 }

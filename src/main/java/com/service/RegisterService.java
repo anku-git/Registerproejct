@@ -1,10 +1,6 @@
 package com.service;
-import com.request.RequestData;
 import org.springframework.data.domain.Page;
 import com.entity.Register;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 public interface RegisterService {
 	Register save(Register register);
 	 Register getById(int id);
@@ -12,5 +8,6 @@ public interface RegisterService {
 	 Register getByTicketNo(String ticketNo);
 	 Register  updateComplain(Integer id,Register register);
 	 void closeComplaint(int id);
+	 void deleteById(Integer id);
 
 }

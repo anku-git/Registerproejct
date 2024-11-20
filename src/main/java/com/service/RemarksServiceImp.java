@@ -1,14 +1,13 @@
 package com.service;
 
-import com.constant.Status;
 import com.entity.Register;
-import com.entity.Remarks;
+import com.entity.RemarksManagement;
 import com.repository.RegisterRepository;
-import com.repository.RemarksRepository;
+import com.repository.RemarksManagementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 
@@ -16,13 +15,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RemarksServiceImp implements RemarksService{
    @Autowired
-   private RemarksRepository remarksRepository;
+   private RemarksManagementRepository remarksRepository;
    @Autowired
    private RegisterRepository registerRepository;
     @Override
-    public Remarks add(Integer registerId,Remarks remarks) {
+    public RemarksManagement add(Integer registerId, RemarksManagement remarks) {
         Register register=registerRepository.findById(registerId).orElseThrow();
-        Remarks rm=new Remarks();
+        RemarksManagement rm=new RemarksManagement();
         //rm.setDate(LocalDateTime.now());
         rm.setRemarks(remarks.getRemarks());
         List<String> listOfStatus=List.of("NEW","ASSIGN","RESOLVED","REVERT","CLOSED");
@@ -33,8 +32,8 @@ public class RemarksServiceImp implements RemarksService{
         return remarksRepository.save(rm);
     }
     @Override
-    public Remarks getById(Integer id) {
-        return null;
+    public RemarksManagement getById(Integer id) {
+        return remarksRepository.findById(id).orElseThrow();
     }
 
 }
