@@ -21,15 +21,15 @@ public class ContactDetailsServiceImp implements ContactDetailsService{
     private ContactDetailsRepository contactDetailsRepository;
     @Autowired
     private RegisterRepository registerRepository;
+    LocalDate currentDate=LocalDate.now();
+    DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    String formatDate=formatter.format(currentDate);
     @Override
     public ContactsDetails add(Integer id,ContactsDetails contactsDetails) {
         Register register=registerRepository.findById(id).orElseThrow();
-        LocalDate currentDate=LocalDate.now();
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formatDate=formatter.format(currentDate);
       ContactsDetails contactsDetails1=new ContactsDetails();
         List<String> listOfStatus=List.of("ACTIVE","INACTIVE");
-      if(contactsDetails.getFlag().equals(true)) {
+      if(contactsDetails.getFlag().equals("yes")) {
           contactsDetails.setStatus("ACTIVE");
           contactsDetails.setActiveDate(formatDate);
           contactsDetails.setInActiveDate(formatDate);
@@ -54,7 +54,14 @@ public class ContactDetailsServiceImp implements ContactDetailsService{
             cd.setContacts(contactsDetails.getContacts());
             cd.setDncType(contactsDetails.getDncType());
             cd.setMdp(contactsDetails.getMdp());
-            cd.setFlag(contactsDetails.getFlag());
+            if(!contactsDetails.getFlag().equals("yes")){
+                cd.setActiveDate(null);
+                cd.setInActiveDate(null);
+               cd.setStatus("INACTIVE");
+            }
+            cd.setStatus("ACTIVE");
+            cd.setActiveDate(formatDate);
+           cd.setInActiveDate(formatDate);
             return contactDetailsRepository.save(cd);
         }
         return null;

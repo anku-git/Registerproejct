@@ -1,8 +1,10 @@
 package com.controller;
+import com.entity.AddressDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.entity.Register;
 import com.service.RegisterServiceImp;
@@ -22,7 +24,6 @@ public class RegisterController {
 		return new ResponseEntity<Register>(register2, HttpStatus.OK);
 
 	}
-
 	@GetMapping("/get/{id}")
 	public ResponseEntity<Register> getComlaint(@PathVariable Integer id) {
 		Register register2 = registerServiceImp.getById(id);

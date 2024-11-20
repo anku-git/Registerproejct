@@ -14,7 +14,7 @@ public class ContactsDetails {
     private String contacts;
     @NotBlank(message = "contactType is required field")
     private String contactType;
-    private Boolean flag;
+    private String flag;
     private String status;
     private String activeDate;
     private String inActiveDate;

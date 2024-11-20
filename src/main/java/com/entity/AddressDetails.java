@@ -1,5 +1,6 @@
 package com.entity;
 
+import com.exception.GlobalExceptionHandler;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

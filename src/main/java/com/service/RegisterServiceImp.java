@@ -10,6 +10,7 @@ import com.constant.Status;
 import com.entity.AddressDetails;
 import com.entity.ContactsDetails;
 import com.entity.RemarksManagement;
+import com.repository.AddressDetailsRepository;
 import com.repository.ContactDetailsRepository;
 import com.repository.RemarksManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class RegisterServiceImp implements RegisterService {
 	private RemarksManagementRepository remarksRepository;
 	@Autowired
 	private ContactDetailsRepository contactDetailsRepository;
+	@Autowired
+	private AddressDetailsRepository addressDetailsRepository;
 
 	public Register save(Register register) {
 		Frequency frequency;
@@ -66,7 +69,7 @@ public class RegisterServiceImp implements RegisterService {
 			List<ContactsDetails> contactList = register.getContactsDetails();
 			System.out.println(contactList);
 			for (ContactsDetails contactsDetails : contactList) {
-				if (contactsDetails.getFlag().equals(true)) {
+				if (contactsDetails.getFlag().equals("yes")) {
 					contactsDetails.setStatus("ACTIVE");
 					contactsDetails.setActiveDate(formatDate);
 					contactsDetails.setInActiveDate(formatDate);
@@ -116,11 +119,28 @@ public class RegisterServiceImp implements RegisterService {
 		remarksManagement.setRegisterId(id);
 		remarksManagement.setStatus(register.getStatus());
 		remarksManagement.setRemarks(register.getRemarks());
+		for(AddressDetails updateAddress : register.getAddressDetails()) {
+			for (AddressDetails existingAddressDetails : rs.getAddressDetails()) {
+				existingAddressDetails.setAddressType(updateAddress.getAddressType());
+				existingAddressDetails.setIdentification(updateAddress.getIdentification());
+				existingAddressDetails.setAddress(updateAddress.getAddress());
+				existingAddressDetails.setCountry(updateAddress.getCountry());
+				existingAddressDetails.setState(updateAddress.getState());
+				existingAddressDetails.setPinCode(updateAddress.getPinCode());
+				existingAddressDetails.setAction(updateAddress.getAction());
+				existingAddressDetails.setPanNumber(updateAddress.getPanNumber());
+				existingAddressDetails.setAadhaarNumber(updateAddress.getAadhaarNumber());
+				existingAddressDetails.setStatus(updateAddress.getStatus());
+				addressDetailsRepository.save(updateAddress);
+			}
+		}
 		for(ContactsDetails updateDetails: register.getContactsDetails()){
 			for(ContactsDetails existingDetails : rs.getContactsDetails()){
-				if(existingDetails.getId().equals(updateDetails.getId())){
+				//if(existingDetails.getId().equals(updateDetails.getId())){
 					existingDetails.setFlag(updateDetails.getFlag());
-					if(!updateDetails.getFlag().equals(true)){
+					if(!updateDetails.getFlag().equals("yes")){
+						existingDetails.setActiveDate(null);
+						existingDetails.setInActiveDate(null);
                       existingDetails.setStatus("INACTIVE");
 					}
 					existingDetails.setStatus("ACTIVE");
@@ -132,15 +152,11 @@ public class RegisterServiceImp implements RegisterService {
 					existingDetails.setContactType(updateDetails.getContactType());
 					contactDetailsRepository.save(updateDetails);
 				}
-			}
 		}
-
 		remarksRepository.save(remarksManagement);
 		return registerRepository.save(rs);
-		
-		
 		}
-		return null;
+		throw new IllegalArgumentException("register value not updated");
 	}
 
 	public void closeComplaint(int id) {
