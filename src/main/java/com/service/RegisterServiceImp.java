@@ -2,11 +2,6 @@ package com.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.constant.Frequency;
-import com.constant.Status;
 import com.entity.AddressDetails;
 import com.entity.ContactsDetails;
 import com.entity.RemarksManagement;
@@ -14,7 +9,6 @@ import com.repository.AddressDetailsRepository;
 import com.repository.ContactDetailsRepository;
 import com.repository.RemarksManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +40,7 @@ public class RegisterServiceImp implements RegisterService {
 	private AddressDetailsRepository addressDetailsRepository;
 
 	public Register save(Register register) {
-		Frequency frequency;
+		//Frequency frequency;
 		String ticketNo = UUID.randomUUID().toString();
 		register.setTicketNo(ticketNo);
 		List<AddressDetails> addressList = register.getAddressDetails();
@@ -65,7 +59,7 @@ public class RegisterServiceImp implements RegisterService {
 				}
 			}
 
-			List<String> listOfStatus = List.of("ACTIVE", "INACTIVE");
+			//List<String> listOfStatus = List.of("ACTIVE", "INACTIVE");
 			List<ContactsDetails> contactList = register.getContactsDetails();
 			System.out.println(contactList);
 			for (ContactsDetails contactsDetails : contactList) {
@@ -150,6 +144,7 @@ public class RegisterServiceImp implements RegisterService {
 					existingDetails.setMdp(updateDetails.getMdp());
 					existingDetails.setDncType(updateDetails.getDncType());
 					existingDetails.setContactType(updateDetails.getContactType());
+					existingDetails.setEmail(updateDetails.getEmail());
 					contactDetailsRepository.save(updateDetails);
 				}
 		}

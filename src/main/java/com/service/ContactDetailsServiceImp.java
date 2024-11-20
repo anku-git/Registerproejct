@@ -54,6 +54,7 @@ public class ContactDetailsServiceImp implements ContactDetailsService{
             cd.setContacts(contactsDetails.getContacts());
             cd.setDncType(contactsDetails.getDncType());
             cd.setMdp(contactsDetails.getMdp());
+            cd.setEmail(contactsDetails.getEmail());
             if(!contactsDetails.getFlag().equals("yes")){
                 cd.setActiveDate(null);
                 cd.setInActiveDate(null);

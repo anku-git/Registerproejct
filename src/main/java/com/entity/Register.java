@@ -6,6 +6,7 @@ import com.constant.Priority;
 import com.constant.Status;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 @Entity
@@ -37,10 +38,12 @@ public class Register {
 
 	@OneToMany(cascade =CascadeType.ALL)
 	@JoinColumn(name = "register_id")
+	@Valid
 	private List<AddressDetails> addressDetails;
 
 	@OneToMany(cascade =CascadeType.ALL)
 	@JoinColumn(name = "register_id")
+	@Valid
 	private List<ContactsDetails> contactsDetails;
 
 

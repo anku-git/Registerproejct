@@ -23,7 +23,7 @@ public class AddressDetailsController {
         return new ResponseEntity<>(addressDetailsServiceImp.get(id),HttpStatus.OK);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<AddressDetails> updateAddress(@PathVariable Integer id,@Valid @RequestBody AddressDetails addressDetails){
+    public ResponseEntity<AddressDetails> updateAddress(@PathVariable Integer id,@RequestBody AddressDetails addressDetails){
         return  new ResponseEntity<>(addressDetailsServiceImp.update(id,addressDetails),HttpStatus.OK);
     }
 }
