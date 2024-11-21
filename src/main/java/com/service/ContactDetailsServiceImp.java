@@ -2,6 +2,7 @@ package com.service;
 
 import com.entity.ContactsDetails;
 import com.entity.Register;
+import com.helper.MailHelper;
 import com.repository.ContactDetailsRepository;
 import com.repository.RegisterRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class ContactDetailsServiceImp implements ContactDetailsService{
     private ContactDetailsRepository contactDetailsRepository;
     @Autowired
     private RegisterRepository registerRepository;
+    @Autowired
+    private MailHelper mailHelper;
     LocalDate currentDate=LocalDate.now();
     DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String formatDate=formatter.format(currentDate);
@@ -37,6 +40,7 @@ public class ContactDetailsServiceImp implements ContactDetailsService{
           contactsDetails.setStatus("INACTIVE");
       }
       contactsDetails.setRegisterId(register.getId());
+       mailHelper.sendMail(contactsDetails.getEmail(),"123");
         return contactDetailsRepository.save(contactsDetails);
     }
 

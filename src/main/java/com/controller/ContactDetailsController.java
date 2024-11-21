@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class ContactDetailsController {
     @Autowired
     private ContactDetailsServiceImp contactDetailsServiceImp;
-    @PostMapping("/save")
+    @PostMapping("/save/{id}")
     public ResponseEntity<ContactsDetails> save(@PathVariable Integer id,
                                                 @Valid @RequestBody ContactsDetails contactsDetails){
         return new ResponseEntity<>(contactDetailsServiceImp.add(id,contactsDetails), HttpStatus.OK);

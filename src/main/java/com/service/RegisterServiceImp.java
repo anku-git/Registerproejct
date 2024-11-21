@@ -5,6 +5,7 @@ import java.util.*;
 import com.entity.AddressDetails;
 import com.entity.ContactsDetails;
 import com.entity.RemarksManagement;
+import com.helper.MailHelper;
 import com.repository.AddressDetailsRepository;
 import com.repository.ContactDetailsRepository;
 import com.repository.RemarksManagementRepository;
@@ -38,6 +39,8 @@ public class RegisterServiceImp implements RegisterService {
 	private ContactDetailsRepository contactDetailsRepository;
 	@Autowired
 	private AddressDetailsRepository addressDetailsRepository;
+	@Autowired
+	private MailHelper mailHelper;
 
 	public Register save(Register register) {
 		//Frequency frequency;
@@ -61,7 +64,6 @@ public class RegisterServiceImp implements RegisterService {
 
 			//List<String> listOfStatus = List.of("ACTIVE", "INACTIVE");
 			List<ContactsDetails> contactList = register.getContactsDetails();
-			System.out.println(contactList);
 			for (ContactsDetails contactsDetails : contactList) {
 				if (contactsDetails.getFlag().equals("yes")) {
 					contactsDetails.setStatus("ACTIVE");
@@ -70,6 +72,7 @@ public class RegisterServiceImp implements RegisterService {
 				} else {
 					contactsDetails.setStatus("INACTIVE");
 				}
+				mailHelper.sendMail(contactsDetails.getEmail(),register.getTicketNo());
 			}
 		}
 		register = registerRepository.save(register);
@@ -78,6 +81,8 @@ public class RegisterServiceImp implements RegisterService {
 		remarksManagement.setRemarks(register.getRemarks());
 		remarksManagement.setRegisterId(register.getId());
 		remarksRepository.save(remarksManagement);
+
+
         return register;
     }
 
@@ -162,5 +167,6 @@ public class RegisterServiceImp implements RegisterService {
 	public void deleteById(Integer id) {
 		registerRepository.deleteById(id);
 	}
+
 
 }

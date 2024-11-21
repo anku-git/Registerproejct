@@ -1,6 +1,9 @@
 package com.service;
 import org.springframework.data.domain.Page;
 import com.entity.Register;
+
+import java.util.List;
+
 public interface RegisterService {
 	Register save(Register register);
 	 Register getById(int id);

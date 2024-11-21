@@ -2,15 +2,12 @@ package com.service;
 
 import com.entity.AddressDetails;
 import com.entity.Register;
+import com.helper.MailHelper;
 import com.repository.AddressDetailsRepository;
 import com.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @Service
 public class AddressDetailsServiceImp implements AddressDetailsService{
     //Aadhaar Regex
@@ -22,7 +19,6 @@ public class AddressDetailsServiceImp implements AddressDetailsService{
     private AddressDetailsRepository addressDetailsRepository;
     @Autowired
     private RegisterRepository registerRepository;
-
     @Override
     public AddressDetails add(Integer id,AddressDetails addressDetails) {
         Register register=registerRepository.findById(id).orElseThrow();
@@ -38,6 +34,7 @@ public class AddressDetailsServiceImp implements AddressDetailsService{
         } else {
             throw new IllegalArgumentException("Aadhaar number cannot be null");
         }
+
         addressDetails.setRegisterId(register.getId());
         return addressDetailsRepository.save(addressDetails);
     }
